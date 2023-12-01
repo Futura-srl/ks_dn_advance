@@ -326,8 +326,17 @@ class KsDashboardNinjaItemAdvance(models.Model):
             ks_query = ks_query.replace("{#MYCOMPANY}", str(self.env.user.company_id.id))
         if ks_query and "{#UID}" in ks_query:
             ks_query = ks_query.replace("{#UID}", str(self.env.user.id))
+
         start_date = selected_start_date
         end_date = selected_end_date
+
+        if not selected_start_date and selected_end_date:
+            start_date = selected_end_date - relativedelta.relativedelta(
+                years=1000)
+        if not selected_end_date and selected_start_date:
+            end_date = selected_start_date + relativedelta.relativedelta(
+                years=1000)
+
         self.ks_validate_kpi_query(ks_query, start_date, end_date, ks_start_date=ks_start_date,
                                    ks_end_date=ks_end_date)
         if self.ks_is_date_ranges:

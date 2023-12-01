@@ -151,8 +151,20 @@ class KsDashboardNinjaAdvance(models.Model):
         if 'ks_file_format' in ks_dashboard_file_read and ks_dashboard_file_read[
             'ks_file_format'] == 'ks_dashboard_ninja_export_file':
             ks_dashboard_data = ks_dashboard_file_read['ks_dashboard_data']
+            for i in range(len(ks_dashboard_data)):
+                if 'ks_set_interval' in ks_dashboard_data[i].keys() and ks_dashboard_data[i].get('ks_item_data', False):
+                    # del ks_dashboard_data[i]['ks_set_interval']
+                    for j in range(len(ks_dashboard_data[i].get('ks_item_data', False))):
+                        if 'ks_update_items_data' in ks_dashboard_data[i].get('ks_item_data', False)[j].keys():
+                            del ks_dashboard_data[i].get('ks_item_data', False)[j]['ks_update_items_data']
+                        if 'ks_auto_update_type' in ks_dashboard_data[i].get('ks_item_data', False)[j].keys():
+                            del ks_dashboard_data[i].get('ks_item_data', False)[j]['ks_auto_update_type']
+                        if 'ks_show_live_pop_up' in ks_dashboard_data[i].get('ks_item_data', False)[j].keys():
+                            del ks_dashboard_data[i].get('ks_item_data', False)[j]['ks_show_live_pop_up']
         else:
             raise ValidationError(_("Current Json File is not properly formatted according to Dashboard Ninja Model."))
+
+
 
         ks_dashboard_key = ['name', 'ks_dashboard_menu_name', 'ks_gridstack_config']
         ks_dashboard_item_key = ['ks_model_id', 'ks_chart_measure_field', 'ks_list_view_fields', 'ks_record_field',

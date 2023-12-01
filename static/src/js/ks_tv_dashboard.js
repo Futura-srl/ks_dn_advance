@@ -562,7 +562,7 @@ odoo.define('ks_dn_advance.ks_tv_dashboard', function(require){
             }
             var item_data = self.ks_dashboard_data.ks_item_data[item_id];
 
-            if (item_data.ks_data_calculation_type === 'custom'){
+            if (item_data && item_data.ks_data_calculation_type === 'custom'){
                 this._super.apply(this,arguments);
             }
         },
